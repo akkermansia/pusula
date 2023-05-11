@@ -2,7 +2,10 @@
   "name": "pusula-ui",
   "version": "5.0.0",
   "private": true,
+  "homepage": "https://akkermansia.github.io/pusula",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d docs",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
