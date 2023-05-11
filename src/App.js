@@ -8,9 +8,9 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/pusula" element={<Layout />}>
           <Route index element={<Landing />} />
-          <Route path="/pusula" element={<Create />} />
+          <Route path="/pusula/create" element={<Create />} />
         </Route>
       </Routes>
     </BrowserRouter>

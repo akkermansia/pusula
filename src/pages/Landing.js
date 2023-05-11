@@ -46,7 +46,7 @@ export default function Landing() {
             Oy pusulası fotoğrafı isteyen işyerleri için, oy pusulası fotoğrafı
             yapıcı
           </Typography>
-          <Button href="/pusula" size="large" variant="contained">
+          <Button href="/pusula/create?step=zemin" size="large" variant="contained">
             Oy Pusulanı Hazırla
           </Button>
         </Stack>

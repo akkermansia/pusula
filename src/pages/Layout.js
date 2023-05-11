@@ -34,7 +34,7 @@ const Layout = () => {
       disableGutters
     >
       <Outlet />
-      {location.pathname !== "/" && (
+      {location.pathname !== "/pusula/" && (
         <List
           dense
           onWheel={handleScroll}
@@ -61,7 +61,7 @@ const Layout = () => {
             <Link
               sx={{ fontWeight: step === "zemin" ? "bold" : "regular" }}
               component={RouterLink}
-              to="/pusula?step=zemin"
+              to="/pusula/create?step=zemin"
             >
               Zemin
             </Link>
@@ -70,7 +70,7 @@ const Layout = () => {
             <Link
               sx={{ fontWeight: step === "zarf" ? "bold" : "regular" }}
               component={RouterLink}
-              to="/pusula?step=zarf"
+              to="/pusula/create?step=zarf"
             >
               Zarf
             </Link>
@@ -79,7 +79,7 @@ const Layout = () => {
             <Link
               sx={{ fontWeight: step === "pusula-turu" ? "bold" : "regular" }}
               component={RouterLink}
-              to="/pusula?step=pusula-turu"
+              to="/pusula/create?step=pusula-turu"
             >
               Pusula Türü
             </Link>
@@ -88,7 +88,7 @@ const Layout = () => {
             <Link
               sx={{ fontWeight: step === "muhur" ? "bold" : "regular" }}
               component={RouterLink}
-              to="/pusula?step=muhur"
+              to="/pusula/create?step=muhur"
             >
               Mühür
             </Link>
@@ -97,7 +97,7 @@ const Layout = () => {
             <Link
               sx={{ fontWeight: step === "golge" ? "bold" : "regular" }}
               component={RouterLink}
-              to="/pusula?step=golge"
+              to="/pusula/create?step=golge"
             >
               Gölge
             </Link>
@@ -106,7 +106,7 @@ const Layout = () => {
             <Link
               sx={{ fontWeight: step === "indir" ? "bold" : "regular" }}
               component={RouterLink}
-              to="/pusula?step=indir"
+              to="/pusula/create?step=indir"
             >
               İndir
             </Link>
