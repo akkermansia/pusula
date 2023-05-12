@@ -66,6 +66,15 @@ const Layout = () => {
               Zemin
             </Link>
           </ListItemButton>
+            <ListItemButton>
+                <Link
+                    sx={{ fontWeight: step === "zemin" ? "bold" : "regular" }}
+                    component={RouterLink}
+                    to="/pusula/create?step=ozel"
+                >
+                    Özel Resim
+                </Link>
+            </ListItemButton>
           <ListItemButton>
             <Link
               sx={{ fontWeight: step === "zarf" ? "bold" : "regular" }}
