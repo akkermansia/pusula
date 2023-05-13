@@ -27,6 +27,8 @@ const Canvas = forwardRef(({ballot}, ref) => {
         ballot3Angle,
         stamp3Image,
         stamp3Angle,
+        stamp4Image,
+        stamp4Angle,
         envelopeImage,
         envelopeAngle,
         idCardImage,
@@ -37,7 +39,8 @@ const Canvas = forwardRef(({ballot}, ref) => {
         topBallot,
         showPresident,
         showDeputy,
-        showCustom
+        showCustom,
+        showStamp4
     } = ballot;
 
     const navigate = useNavigate();
@@ -54,6 +57,7 @@ const Canvas = forwardRef(({ballot}, ref) => {
     const [stamp1, setStamp1] = useState(null);
     const [stamp2, setStamp2] = useState(null);
     const [stamp3, setStamp3] = useState(null);
+    const [stamp4, setStamp4] = useState(null);
 
     let shadow = new fabric.Shadow({
         color: "rgba(50, 50, 70, 0.2)",
@@ -206,7 +210,7 @@ const Canvas = forwardRef(({ballot}, ref) => {
 
     useEffect(() => {
         if (!editor || !fabric) return;
-        if (!ballot3 && !stamp3 && ballot3Image !== '') {
+        if (!ballot3 && !stamp3 && !stamp4 && ballot3Image !== '') {
             loadImagePromise(ballot3Image)
                 .then((image) => {
                     let ballot3Instance = new fabric.Image(image, {
@@ -229,7 +233,17 @@ const Canvas = forwardRef(({ballot}, ref) => {
                     stamp3Instance.scale(0.45);
                     if (showCustom) editor.canvas.add(stamp3Instance);
                     setStamp3(stamp3Instance);
+                    return loadImagePromise(stamp4Image);
+                }).then((stampImage) => {
+                let stamp4Instance = new fabric.Image(stampImage, {
+                    left: fabricRef.current.offsetWidth / 2 + 100,
+                    top: fabricRef.current.offsetHeight / 2 + 100,
+                    angle: stamp4Angle,
                 });
+                stamp4Instance.scale(0.45);
+                if (showCustom) editor.canvas.add(stamp4Instance);
+                setStamp4(stamp4Instance);
+            })
         }
     }, [fabricRef, editor?.canvas, ballot3Image, showCustom]);
 
@@ -260,7 +274,7 @@ const Canvas = forwardRef(({ballot}, ref) => {
     }, [fabricRef, editor?.canvas]);
 
     useEffect(() => {
-        if (!editor || !fabric || !ballot1 || !stamp1 || !ballot2 || !stamp2 || !ballot3 || !stamp3)
+        if (!editor || !fabric || !ballot1 || !stamp1 || !ballot2 || !stamp2)
             return;
 
 
@@ -275,17 +289,22 @@ const Canvas = forwardRef(({ballot}, ref) => {
             editor.canvas.requestRenderAll();
         }
 
-        if (showCustom) {
-            editor.canvas.add(ballot3);
-            editor.canvas.add(stamp3);
-        }
+        if (ballot3 && stamp3 && stamp4 && ballot3Image!=='') {
+            if (showCustom) {
+                editor.canvas.add(ballot3);
+                editor.canvas.add(stamp3);
+                editor.canvas.requestRenderAll();
 
-        if (!showCustom) {
-            editor.canvas.remove(stamp3);
-            editor.canvas.remove(ballot3);
-            editor.canvas.requestRenderAll();
-        }
+            }
 
+            if (!showCustom) {
+                editor.canvas.remove(stamp3);
+                editor.canvas.remove(ballot3);
+                editor.canvas.requestRenderAll();
+            }
+
+
+        }
 
         if (showDeputy) {
             editor.canvas.add(ballot2);
@@ -337,6 +356,38 @@ const Canvas = forwardRef(({ballot}, ref) => {
             editor.canvas.renderAll();
         });
     }, [fabricRef, editor?.canvas, stamp2Image]);
+
+    useEffect(() => {
+        if (!editor || !fabric || !stamp3) return;
+
+        stamp3.setSrc(stamp3Image, () => {
+            editor.canvas.renderAll();
+        });
+    }, [fabricRef, editor?.canvas, stamp3Image]);
+
+    useEffect(() => {
+        if (!editor || !fabric || !stamp4) return;
+
+        stamp4.setSrc(stamp4Image, () => {
+            editor.canvas.renderAll();
+        });
+    }, [fabricRef, editor?.canvas, stamp4Image]);
+
+    useEffect(() => {
+        if (!editor || !fabric || !stamp4) return;
+
+        if (showStamp4) {
+            editor.canvas.add(stamp4);
+        }
+        if (!showStamp4) {
+            editor.canvas.remove(stamp4);
+        }
+        editor.canvas.renderAll();
+
+
+    }, [fabricRef, editor?.canvas, showStamp4]);
+
+
 
     useEffect(() => {
         if (!editor || !fabric) return;

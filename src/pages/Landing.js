@@ -52,7 +52,7 @@ export default function Landing() {
                         Oy pusulası fotoğrafı isteyen işyerleri için, oy pusulası fotoğrafı
                         yapıcı
                     </Typography>
-                    <Button component={RouterLink} to="/pusula/create?step=zemin" size="large" variant="contained">
+                    <Button component={RouterLink} to="/create?step=zemin" size="large" variant="contained">
                         Oy Pusulanı Hazırla
                     </Button>
                 </Stack>

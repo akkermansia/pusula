@@ -34,7 +34,7 @@ const Layout = () => {
       disableGutters
     >
       <Outlet />
-      {location.pathname !== "/pusula/" && (
+      {location.pathname !== "/" && (
         <List
           dense
           onWheel={handleScroll}
@@ -61,16 +61,16 @@ const Layout = () => {
             <Link
               sx={{ fontWeight: step === "zemin" ? "bold" : "regular" }}
               component={RouterLink}
-              to="/pusula/create?step=zemin"
+              to="/create?step=zemin"
             >
               Zemin
             </Link>
           </ListItemButton>
             <ListItemButton>
                 <Link
-                    sx={{ fontWeight: step === "zemin" ? "bold" : "regular" }}
+                    sx={{ fontWeight: step === "ozel" ? "bold" : "regular" }}
                     component={RouterLink}
-                    to="/pusula/create?step=ozel"
+                    to="/create?step=ozel"
                 >
                     Özel Resim
                 </Link>
@@ -79,7 +79,7 @@ const Layout = () => {
             <Link
               sx={{ fontWeight: step === "zarf" ? "bold" : "regular" }}
               component={RouterLink}
-              to="/pusula/create?step=zarf"
+              to="/create?step=zarf"
             >
               Zarf
             </Link>
@@ -88,7 +88,7 @@ const Layout = () => {
             <Link
               sx={{ fontWeight: step === "pusula-turu" ? "bold" : "regular" }}
               component={RouterLink}
-              to="/pusula/create?step=pusula-turu"
+              to="/create?step=pusula-turu"
             >
               Pusula Türü
             </Link>
@@ -97,7 +97,7 @@ const Layout = () => {
             <Link
               sx={{ fontWeight: step === "muhur" ? "bold" : "regular" }}
               component={RouterLink}
-              to="/pusula/create?step=muhur"
+              to="/create?step=muhur"
             >
               Mühür
             </Link>
@@ -106,7 +106,7 @@ const Layout = () => {
             <Link
               sx={{ fontWeight: step === "golge" ? "bold" : "regular" }}
               component={RouterLink}
-              to="/pusula/create?step=golge"
+              to="/create?step=golge"
             >
               Gölge
             </Link>
@@ -115,7 +115,7 @@ const Layout = () => {
             <Link
               sx={{ fontWeight: step === "indir" ? "bold" : "regular" }}
               component={RouterLink}
-              to="/pusula/create?step=indir"
+              to="/create?step=indir"
             >
               İndir
             </Link>

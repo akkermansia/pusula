@@ -39,6 +39,8 @@ export default function Create() {
         stamp2Angle: Math.floor(Math.random() * 360),
         stamp3Image: stamps[0],
         stamp3Angle: Math.floor(Math.random() * 360),
+        stamp4Image: stamps[0],
+        stamp4Angle: Math.floor(Math.random() * 360),
         envelopeImage: "./zarf.png",
         envelopeAngle: Math.floor(Math.random() * 4),
         idCardImage: "",
@@ -51,6 +53,7 @@ export default function Create() {
         showPresident: true,
         showDeputy: false,
         showCustom: false,
+        showStamp4: false,
         onSave: () => {
         },
     });
@@ -89,7 +92,13 @@ export default function Create() {
         let reader = new FileReader();
         let file = e.target.files[0];
         reader.onload = function (event) {
-            setBallot({...ballot, ballot3Image: event.target.result});
+            setBallot({...ballot,
+                ballot3Image: event.target.result,
+                showCustom: true,
+                showStamp4: true,
+                showPresident: false,
+                showDeputy: false
+            });
         }
         reader.readAsDataURL(e.target.files[0]);
     }
@@ -101,6 +110,7 @@ export default function Create() {
             "pusula-turu": "Pusula Türü",
             golge: "Gölge olsun",
             muhur: "Mühür Seçin",
+            ozel: "Özel Resim",
             indir: "İşlem tamam!",
         };
 
@@ -328,7 +338,7 @@ export default function Create() {
                                 hidden
                             />
                         </Button>)}
-                    {currentStep === "ozel" && (
+                    {currentStep === "ozel" && ballot.ballot3Image !=='' && (
                     <FormControl component="fieldset" variant="standard">
                         <FormGroup>
                             <FormControlLabel
@@ -336,24 +346,38 @@ export default function Create() {
                                     <Switch
                                         checked={ballot.showCustom}
                                         onChange={(e) => {
-                                            setBallot({...ballot, showCustom: e.target.checked});
+                                            setBallot({...ballot, showCustom: e.target.checked,
+                                                showStamp4: e.target.checked
+                                            });
                                         }}
-                                        name="envelope"
+                                        name="customBallot"
                                     />
                                 }
                                 label="Özel Pusula Göster"
                             />
+                            <FormControlLabel
+                                control={
+                                    <Switch
+                                        checked={ballot.showStamp4}
+                                        onChange={(e) => {
+                                            setBallot({...ballot, showStamp4: e.target.checked});
+                                        }}
+                                        name="customStamp"
+                                    />
+                                }
+                                label="2. Mührü Göster"
+                            />
                         </FormGroup>
                     </FormControl>
                     )}
-                    {currentStep === "ozel" && ballot.showPresident && (
+                    {currentStep === "ozel" && ballot.showCustom && (
                         <FormControl
                             sx={{
                                 mr: "16px",
                             }}
                         >
                             <FormLabel id="demo-radio-buttons-group-label">
-                                Özel Mühür
+                                Özel Mühür 1
                             </FormLabel>
 
                             <FormControlLabel
@@ -376,6 +400,43 @@ export default function Create() {
                                     setBallot({
                                         ...ballot,
                                         stamp3Image: e.target.value,
+                                    });
+                                }}
+                                label="Tercih"
+                            />
+                        </FormControl>
+                    )}
+
+                    {currentStep === "ozel" && ballot.showCustom && (
+                        <FormControl
+                            sx={{
+                                mr: "16px",
+                            }}
+                        >
+                            <FormLabel id="demo-radio-buttons-group-label">
+                                Özel Mühür 2
+                            </FormLabel>
+
+                            <FormControlLabel
+                                value={stamps[0]}
+                                checked={ballot.stamp4Image === stamps[0]}
+                                control={<Radio/>}
+                                onChange={(e) => {
+                                    setBallot({
+                                        ...ballot,
+                                        stamp4Image: e.target.value,
+                                    });
+                                }}
+                                label="Evet"
+                            />
+                            <FormControlLabel
+                                checked={ballot.stamp4Image === stamps[1]}
+                                value={stamps[1]}
+                                control={<Radio/>}
+                                onChange={(e) => {
+                                    setBallot({
+                                        ...ballot,
+                                        stamp4Image: e.target.value,
                                     });
                                 }}
                                 label="Tercih"
@@ -450,6 +511,79 @@ export default function Create() {
                                     setBallot({
                                         ...ballot,
                                         stamp2Image: e.target.value,
+                                    });
+                                }}
+                                label="Tercih"
+                            />
+                        </FormControl>
+                    )}
+
+                    {currentStep === "muhur" && ballot.showCustom && (
+                        <FormControl
+                            sx={{
+                                mr: "16px",
+                            }}
+                        >
+                            <FormLabel id="demo-radio-buttons-group-label">
+                                Özel Resim Mührü 1
+                            </FormLabel>
+
+                            <FormControlLabel
+                                value={stamps[0]}
+                                checked={ballot.stamp3Image === stamps[0]}
+                                control={<Radio/>}
+                                onChange={(e) => {
+                                    setBallot({
+                                        ...ballot,
+                                        stamp3Image: e.target.value,
+                                    });
+                                }}
+                                label="Evet"
+                            />
+                            <FormControlLabel
+                                checked={ballot.stamp3Image === stamps[1]}
+                                value={stamps[1]}
+                                control={<Radio/>}
+                                onChange={(e) => {
+                                    setBallot({
+                                        ...ballot,
+                                        stamp3Image: e.target.value,
+                                    });
+                                }}
+                                label="Tercih"
+                            />
+                        </FormControl>
+                    )}
+                    {currentStep === "muhur" && ballot.showCustom && (
+                        <FormControl
+                            sx={{
+                                mr: "16px",
+                            }}
+                        >
+                            <FormLabel id="demo-radio-buttons-group-label">
+                                Özel Resim Mührü 2
+                            </FormLabel>
+
+                            <FormControlLabel
+                                value={stamps[0]}
+                                checked={ballot.stamp4Image === stamps[0]}
+                                control={<Radio/>}
+                                onChange={(e) => {
+                                    setBallot({
+                                        ...ballot,
+                                        stamp4Image: e.target.value,
+                                    });
+                                }}
+                                label="Evet"
+                            />
+                            <FormControlLabel
+                                checked={ballot.stamp4Image === stamps[1]}
+                                value={stamps[1]}
+                                control={<Radio/>}
+                                onChange={(e) => {
+                                    setBallot({
+                                        ...ballot,
+                                        stamp4Image: e.target.value,
                                     });
                                 }}
                                 label="Tercih"
