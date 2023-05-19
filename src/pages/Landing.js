@@ -46,7 +46,7 @@ export default function Landing() {
                     direction="column"
                 >
                     <Typography sx={{mt: 8}} variant="h4" component="h1" gutterBottom>
-                        Oy pusulası fotoğrafı yapıcı <br/> 14 Mayıs
+                        Oy pusulası fotoğrafı yapıcı <br/> 2. Tur
                     </Typography>
                     <Typography variant="h5" component="h2" gutterBottom>
                         Oy pusulası fotoğrafı isteyen işyerleri için, oy pusulası fotoğrafı

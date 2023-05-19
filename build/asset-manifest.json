@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/pusula/static/js/main.7f320e5a.js",
+    "main.js": "/pusula/static/js/main.c29b5580.js",
     "index.html": "/pusula/index.html",
-    "main.7f320e5a.js.map": "/pusula/static/js/main.7f320e5a.js.map"
+    "main.c29b5580.js.map": "/pusula/static/js/main.c29b5580.js.map"
   },
   "entrypoints": [
-    "static/js/main.7f320e5a.js"
+    "static/js/main.c29b5580.js"
   ]
 }
