@@ -51,7 +51,7 @@ export default function Create() {
         filterpeAngle: Math.floor(Math.random() * 4),
         idCardImage: "",
         customImage: "",
-        hasShadows: true,
+        hasShadows: false,
         hasFilter: false,
         hasEnvelope: false,
         ballotType: 0,
