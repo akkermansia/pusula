@@ -156,9 +156,9 @@ const Canvas = forwardRef(({ballot}, ref) => {
                 image,
                 editor.canvas.renderAll.bind(editor.canvas),
                 {
-                    left: -100, top: -100, angle: ballot.backgroundAngle,
-                    scaleX: (editor.canvas.width / image.width) * 1.2,
-                    scaleY: (editor.canvas.width / image.width) * 1.2
+                    left: 0, top: editor.canvas.height * -0.1, angle: ballot.backgroundAngle,
+                    scaleX: (editor.canvas.height / image.height) * 1.3,
+                    scaleY: (editor.canvas.height / image.height) * 1.3
                 }
             );
         });
@@ -224,8 +224,8 @@ const Canvas = forwardRef(({ballot}, ref) => {
             loadImagePromise(ballot4Image)
                 .then((image) => {
                     let ballot4Instance = new fabric.Image(image, {
-                        left: 100,
-                        top: 100,
+                        left: editor.canvas.width * 0.1,
+                        top: editor.canvas.height * 0.1,
                         scaleX:  0.55,
                         scaleY:  0.55,
                         angle: ballot4Angle,
@@ -253,8 +253,8 @@ const Canvas = forwardRef(({ballot}, ref) => {
             loadImagePromise(ballot3Image)
                 .then((image) => {
                     let ballot3Instance = new fabric.Image(image, {
-                        left: 100,
-                        top: 100,
+                        left: editor.canvas.width * 0.1,
+                        top: editor.canvas.height * 0.1,
                         angle: ballot3Angle,
                         scaleX: (editor.canvas.width / image.width) * 1.2,
                         scaleY: (editor.canvas.height / image.height) * 1.2
@@ -311,8 +311,8 @@ const Canvas = forwardRef(({ballot}, ref) => {
         if (!envelope) {
             loadImagePromise(envelopeImage).then((image) => {
                 let envelopeInstance = new fabric.Image(image, {
-                    left: 100,
-                    top: 100,
+                    left: editor.canvas.width * 0.1,
+                    top: editor.canvas.height * 0.1,
                     angle: envelopeAngle,
                 });
                 if (hasEnvelope) editor.canvas.add(envelopeInstance);
@@ -327,9 +327,10 @@ const Canvas = forwardRef(({ballot}, ref) => {
         if (!filter) {
             loadImagePromise(filterImage).then((image) => {
                 let filterInstance = new fabric.Image(image, {
-                    left: -100, top: -100,
-                    scaleX: (editor.canvas.width / image.width) * 1.2,
-                    scaleY: (editor.canvas.height / image.height) * 1.2,
+                    left: 0,
+                    top:0,
+                    scaleX: (editor.canvas.height / image.height) * 1.1,
+                    scaleY: (editor.canvas.height / image.height) * 1.1,
                     opacity: 0.25,
                     angle: filterAngle,
                 });
