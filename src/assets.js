@@ -13,7 +13,8 @@ const backgrounds = [
   "./backgrounds/wood11.jpg",
 ];
 
-const ballots = ["./ballots/cb.png", "./ballots/mv.png"];
+const ballots = ["./ballots/cb.png", "./ballots/mv.png", "./ballots/cb2.png"];
 const stamps = ["./stamps/evet.png", "./stamps/tercih.png"];
+const filters = ["./filters/shadow.png"];
 
-export { backgrounds, ballots, stamps };
+export { backgrounds, ballots, stamps, filters };

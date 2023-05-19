@@ -29,17 +29,24 @@ const Canvas = forwardRef(({ballot}, ref) => {
         stamp3Angle,
         stamp4Image,
         stamp4Angle,
+        ballot4Image,
+        ballot4Angle,
+        stamp5Image,
+        stamp5Angle,
         envelopeImage,
         envelopeAngle,
         idCardImage,
         customImage,
         hasShadows,
         hasFilter,
+        filterImage,
+        filterAngle,
         hasEnvelope,
         topBallot,
         showPresident,
         showDeputy,
         showCustom,
+        showSecondRound,
         showStamp4
     } = ballot;
 
@@ -49,15 +56,18 @@ const Canvas = forwardRef(({ballot}, ref) => {
     const fabricRef = useRef(null);
     const [background, setBackground] = useState(null);
     const [envelope, setEnvelope] = useState(null);
+    const [filter, setFilter] = useState(null);
 
     const [ballot1, setBallot1] = useState(null);
     const [ballot2, setBallot2] = useState(null);
     const [ballot3, setBallot3] = useState(null);
+    const [ballot4, setBallot4] = useState(null);
 
     const [stamp1, setStamp1] = useState(null);
     const [stamp2, setStamp2] = useState(null);
     const [stamp3, setStamp3] = useState(null);
     const [stamp4, setStamp4] = useState(null);
+    const [stamp5, setStamp5] = useState(null);
 
     let shadow = new fabric.Shadow({
         color: "rgba(50, 50, 70, 0.2)",
@@ -148,7 +158,7 @@ const Canvas = forwardRef(({ballot}, ref) => {
                 {
                     left: -100, top: -100, angle: ballot.backgroundAngle,
                     scaleX: (editor.canvas.width / image.width) * 1.2,
-                    scaleY: (editor.canvas.height / image.height) * 1.2
+                    scaleY: (editor.canvas.width / image.width) * 1.2
                 }
             );
         });
@@ -210,6 +220,35 @@ const Canvas = forwardRef(({ballot}, ref) => {
 
     useEffect(() => {
         if (!editor || !fabric) return;
+        if (!ballot4 && !stamp5) {
+            loadImagePromise(ballot4Image)
+                .then((image) => {
+                    let ballot4Instance = new fabric.Image(image, {
+                        left: 100,
+                        top: 100,
+                        scaleX:  0.55,
+                        scaleY:  0.55,
+                        angle: ballot4Angle,
+                    });
+                    if (showSecondRound) editor.canvas.add(ballot4Instance);
+                    setBallot4(ballot4Instance);
+                    return loadImagePromise(stamp5Image);
+                })
+                .then((stampImage) => {
+                    let stamp5Instance = new fabric.Image(stampImage, {
+                        left: fabricRef.current.offsetWidth / 2 + 50,
+                        top: fabricRef.current.offsetHeight / 2 + 50,
+                        angle: stamp5Angle,
+                    });
+                    stamp5Instance.scale(0.45);
+                    if (showSecondRound) editor.canvas.add(stamp5Instance);
+                    setStamp5(stamp5Instance);
+                });
+        }
+    }, [fabricRef, editor?.canvas, showSecondRound]);
+
+    useEffect(() => {
+        if (!editor || !fabric) return;
         if (!ballot3 && !stamp3 && !stamp4 && ballot3Image !== '') {
             loadImagePromise(ballot3Image)
                 .then((image) => {
@@ -258,6 +297,16 @@ const Canvas = forwardRef(({ballot}, ref) => {
     }, [fabricRef, editor?.canvas, hasEnvelope]);
 
     useEffect(() => {
+        if (!editor || !fabric || !filter) return;
+        if (!hasFilter) {
+            editor.canvas.remove(filter);
+        } else {
+            editor.canvas.add(filter);
+        }
+        filter.bringToFront();
+    }, [fabricRef, editor?.canvas, hasFilter]);
+
+    useEffect(() => {
         if (!editor || !fabric) return;
         if (!envelope) {
             loadImagePromise(envelopeImage).then((image) => {
@@ -274,7 +323,28 @@ const Canvas = forwardRef(({ballot}, ref) => {
     }, [fabricRef, editor?.canvas]);
 
     useEffect(() => {
-        if (!editor || !fabric || !ballot1 || !stamp1 || !ballot2 || !stamp2)
+        if (!editor || !fabric) return;
+        if (!filter) {
+            loadImagePromise(filterImage).then((image) => {
+                let filterInstance = new fabric.Image(image, {
+                    left: -100, top: -100,
+                    scaleX: (editor.canvas.width / image.width) * 1.2,
+                    scaleY: (editor.canvas.height / image.height) * 1.2,
+                    opacity: 0.25,
+                    angle: filterAngle,
+                });
+
+                if (hasFilter) editor.canvas.add(filterInstance);
+                filterInstance.bringToFront();
+                setFilter(filterInstance);
+            });
+        }
+    }, [fabricRef, editor?.canvas]);
+
+    useEffect(() => {
+        if (!editor || !fabric || !ballot1 || !stamp1 || !ballot2 || !stamp2
+            || !ballot4 || !stamp5
+        )
             return;
 
 
@@ -289,7 +359,18 @@ const Canvas = forwardRef(({ballot}, ref) => {
             editor.canvas.requestRenderAll();
         }
 
-        if (ballot3 && stamp3 && stamp4 && ballot3Image!=='') {
+        if (showSecondRound) {
+            editor.canvas.add(ballot4);
+            editor.canvas.add(stamp5);
+        }
+
+        if (!showSecondRound) {
+            editor.canvas.remove(stamp5);
+            editor.canvas.remove(ballot4);
+            editor.canvas.requestRenderAll();
+        }
+
+        if (ballot3 && stamp3 && stamp4 && ballot3Image !== '') {
             if (showCustom) {
                 editor.canvas.add(ballot3);
                 editor.canvas.add(stamp3);
@@ -319,24 +400,36 @@ const Canvas = forwardRef(({ballot}, ref) => {
         if (topBallot === 1) {
             ballot2.bringToFront();
             stamp2.bringToFront();
-        } else {
+        }
+
+        if (topBallot === 0) {
             ballot1.bringToFront();
             stamp1.bringToFront();
         }
+
+        if (topBallot === 2) {
+            ballot4.bringToFront();
+            stamp5.bringToFront();
+        }
         editor.canvas.requestRenderAll();
-    }, [fabricRef, editor?.canvas, topBallot, showPresident, showDeputy, showCustom, ballot3Image]);
+    }, [fabricRef, editor?.canvas, topBallot, showPresident, showDeputy, showCustom, ballot3Image, showSecondRound]);
 
     useEffect(() => {
-        if (!editor || !fabric || !ballot1 || !ballot2) return;
+        console.log('shadow')
+        console.log(!!ballot4)
+        if (!editor || !fabric || !ballot1 || !ballot2 || !ballot4  ) return;
+        console.log('shadow')
 
         if (hasShadows) {
             ballot1.shadow = shadow;
             ballot2.shadow = shadow;
+            ballot4.shadow = shadow;
             envelope.shadow = shadow;
             editor.canvas.requestRenderAll();
         } else {
             ballot1.shadow = null;
             ballot2.shadow = null;
+            ballot4.shadow = null;
             envelope.shadow = null;
         }
     }, [fabricRef, editor?.canvas, hasShadows]);
@@ -374,6 +467,14 @@ const Canvas = forwardRef(({ballot}, ref) => {
     }, [fabricRef, editor?.canvas, stamp4Image]);
 
     useEffect(() => {
+        if (!editor || !fabric || !stamp5) return;
+
+        stamp1.setSrc(stamp5Image, () => {
+            editor.canvas.renderAll();
+        });
+    }, [fabricRef, editor?.canvas, stamp5Image]);
+
+    useEffect(() => {
         if (!editor || !fabric || !stamp4) return;
 
         if (showStamp4) {
@@ -386,7 +487,6 @@ const Canvas = forwardRef(({ballot}, ref) => {
 
 
     }, [fabricRef, editor?.canvas, showStamp4]);
-
 
 
     useEffect(() => {

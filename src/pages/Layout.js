@@ -111,6 +111,15 @@ const Layout = () => {
               Gölge
             </Link>
           </ListItemButton>
+            <ListItemButton>
+                <Link
+                    sx={{ fontWeight: step === "filter" ? "bold" : "regular" }}
+                    component={RouterLink}
+                    to="/create?step=filter"
+                >
+                    Telefon Gölgesi
+                </Link>
+            </ListItemButton>
           <ListItemButton>
             <Link
               sx={{ fontWeight: step === "indir" ? "bold" : "regular" }}
